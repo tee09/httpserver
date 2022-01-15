@@ -1,3 +1,3 @@
-module gonote/note/homework
+module httpserver 
 
 go 1.17
