@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"log"
 	"net"
+
+	//"net"
 	"net/http"
 	"net/http/pprof"
 	"os"
@@ -39,7 +41,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	//不是真实用户地址
 	// X-REAL-IP
 	// X-FORWORD-FOR 这两个header里面有真实地址
-	clientip := getCurrentIP(r)
+	clientip := ClientIP(r)
 	//log.Printf("Response code: %d", 200)
 	httpCode := http.StatusOK
 	log.Printf("clinetip: %s  code: %v", clientip, httpCode)
@@ -51,13 +53,13 @@ func healthz(w http.ResponseWriter, r *http.Request) {
 }
 
 //构造取IP函数
-func getCurrentIP(r *http.Request) string {
-	ip := r.Header.Get("X-REAL-IP")
-	if ip == "" {
-		//remoteaddr IP:PORT 当请求头不存在则直接取IP,取remoteaddr：前面一段
-		ip = strings.Split(r.RemoteAddr, ":")[0]
-	}
-	return ip
+// func getCurrentIP(r *http.Request) string {
+// 	ip := r.Header.Get("X-REAL-IP")
+// 	if ip == "" {
+// 		//remoteaddr IP:PORT 当请求头不存在则直接取IP,取remoteaddr：前面一段
+// 		ip = strings.Split(r.RemoteAddr, ":")[0]
+// 	}
+// 	return ip
 }
 
 //ClientIP尽最大努力实现获取客户端IP
